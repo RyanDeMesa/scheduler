@@ -1,4 +1,4 @@
-export default function getAppointmentsForDay(state, day) {
+export function getAppointmentsForDay(state, day) {
 
   // returns object matching day
   const matchingDay = state.days.find((days) => days.name === day);
@@ -13,3 +13,22 @@ export default function getAppointmentsForDay(state, day) {
   const appointmentsList = appointmentIds.map((id) => state.appointments[id]);
   return appointmentsList;
 }
+
+export function getInterview(state, interview) {
+
+  // if no interview found, return null
+  if (!interview) {
+    return null;
+  }
+
+  const id = interview.interviewer;
+
+  // if id is a match returns interview object with interviewer details
+  if (state.interviewers[id]) {
+    return {
+      student: interview.student,
+      interviewer: state.interviewers[id]
+    };
+  }
+
+};
