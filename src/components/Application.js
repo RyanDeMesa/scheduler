@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { renderHook, act } from "@testing-library/react-hooks";
+import useVisualMode from "hooks/useVisualMode";
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
