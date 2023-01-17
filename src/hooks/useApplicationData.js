@@ -25,6 +25,22 @@ export default function useApplicationData() {
     });
   }, []);
 
+  // update number of spots for current day
+  const updateSpots = (day, days, appointments) => {
+    // find the day object in the days array
+    const dayObj = days.find((d) => d.name === day);
+    let spots = 0;
+
+    for (const id of dayObj.appointments) {
+      // get appointment object from appointments object
+      const appointment = appointments[id];
+      if (!appointment.interview) {
+        spots++;
+      }
+    }
+    return spots;
+  };
+
   function bookInterview(id, interview) {
     console.log("id, interview", id, interview);
 
@@ -37,18 +53,38 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
+    // update the number of spots for the current day
+    const spots = updateSpots(state.day, state.days, appointments);
+    // update the days object in state
+    const days = state.days.map((day) => {
+      if (day.name === state.day) {
+        return { ...day, spots };
+      }
+      return day;
+    });
+
     return axios
       .put(`/api/appointments/${id}`, { interview })
       .then(response => {
-        setState({ ...state, appointments });
+        setState({ ...state, appointments, days });
       });
   }
-
 
   function cancelInterview(id) {
     const interview = null;
     const appointment = { ...state.appointments[id], interview };
     const appointments = { ...state.appointments, [id]: appointment };
+
+    // update the number of spots for the current day
+    const spots = updateSpots(state.day, state.days, appointments);
+
+    // update the days object in state
+    const days = state.days.map((day) => {
+      if (day.name === state.day) {
+        return { ...day, spots };
+      }
+      return day;
+    });
 
     return axios
       .delete(`/api/appointments/${id}`, { interview })
@@ -56,9 +92,10 @@ export default function useApplicationData() {
         setState((prev) => ({
           ...prev,
           appointments,
+          days,
         }));
       })
       .catch((err) => console.log(err));
-  }
-  return { state, setDay, bookInterview, cancelInterview };
+    }
+    return { state, setDay, bookInterview, cancelInterview, updateSpots };
 }
