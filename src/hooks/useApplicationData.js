@@ -26,22 +26,24 @@ export default function useApplicationData() {
   }, []);
 
   function bookInterview(id, interview) {
+    console.log("id, interview", id, interview);
+
     const appointment = {
       ...state.appointments[id],
-      interview: { ...interview },
+      interview: { ...interview }
     };
-    const appointments = { ...state.appointments, [id]: appointment };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
 
     return axios
       .put(`/api/appointments/${id}`, { interview })
-      .then((response) => {
-        setState((prev) => ({
-          ...state,
-          appointments,
-        }));
-      })
-      .catch((err) => console.log(err));
+      .then(response => {
+        setState({ ...state, appointments });
+      });
   }
+
 
   function cancelInterview(id) {
     const interview = null;
