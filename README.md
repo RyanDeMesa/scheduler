@@ -1,4 +1,6 @@
-# Interview Scheduler
+# Scheduler
+
+Interview scheduler is a SPA (single-page-application) built with React that allows users to book, edit and cancel interview appointments. Booking can be done Monday through Friday from 12am to 4pm. Users are able to select their timeslot and interviewer and the app updates in real time.
 
 ## Setup
 
@@ -16,10 +18,6 @@ npm start
 npm test
 ```
 
-## Running Storybook Visual Testbed
-
-```sh
-npm run storybook
-```
+## App Demo
 
 ![](https://github.com/RyanDeMesa/scheduler/blob/master/doc/ScheGif.gif)
