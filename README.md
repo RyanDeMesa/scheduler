@@ -22,4 +22,4 @@ npm test
 npm run storybook
 ```
 
-![]()
+![](https://github.com/RyanDeMesa/scheduler/blob/master/doc/schGif.gif)
